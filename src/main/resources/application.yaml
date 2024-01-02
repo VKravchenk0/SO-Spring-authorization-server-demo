@@ -1,1 +1,5 @@
 
+springdoc:
+  enable-spring-security: true
+  show-login-endpoint: true
+  show-oauth2-endpoints: true
