@@ -10,14 +10,13 @@ This application has two sets of test endpoints:
 ## Authorization code flow with PKCE demo:
 
 ### 1. Start the app:
-`./mvnw spring-boot:run`
-
-### 2. Making sure `**/protected` endpoints are inaccessible for now
 ```
-# should return 401
-http localhost:8080/test/protected
+./mvnw spring-boot:run
+```
 
-# should return redirection to the login page
+### 2. Making sure `**/protected` endpoints are inaccessible for now (returning 401 or redirect to login)
+```
+http localhost:8080/test/protected
 http localhost:8080/api/test/protected
 ```
 
@@ -30,11 +29,17 @@ http --session=testsession --form POST localhost:8080/login \
     password=password
 ```
 #### 3.2. Checking that `/test/protected` is now accessible:
-`http --session=testsession localhost:8080/test/protected`
+```
+http --session=testsession localhost:8080/test/protected
+```
 #### 3.2. Making sure `/api/test/protected` is still inaccessible:
-`http --session=testsession localhost:8080/api/test/protected`
+```
+http --session=testsession localhost:8080/api/test/protected
+```
 #### 3.3. Introspecting the Spring Security session-based authentication object (expecting `UsernamePasswordAuthenticationToken`):
-`http --session=testsession localhost:8080/test/currentUser`
+```
+http --session=testsession localhost:8080/test/currentUser
+```
 
 ### 4. OAuth2 Authorization Code Flow with PKCE. 
 #### 4.1 Initializing the PKCE variables (NOTE: do not hardcode them in real projects):
@@ -72,6 +77,10 @@ ACCESS_TOKEN=$(
 
 ### 5. Verification:
 #### 5.1. Checking that `/api/test/protected` is now accessible with the JWT access token:
-`http GET localhost:8080/api/test/protected Authorization:"Bearer $ACCESS_TOKEN"`
+```
+http GET localhost:8080/api/test/protected Authorization:"Bearer $ACCESS_TOKEN"
+```
 #### 5.2. Introspecting the Spring Security bearer token authentication object (expecting `JwtAuthenticationToken`):
-`http GET localhost:8080/api/test/currentUser Authorization:"Bearer $ACCESS_TOKEN"`
+```
+http GET localhost:8080/api/test/currentUser Authorization:"Bearer $ACCESS_TOKEN"
+```
